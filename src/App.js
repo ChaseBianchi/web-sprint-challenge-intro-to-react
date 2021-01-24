@@ -1,7 +1,18 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
+import axios from 'axios';
+import Species from './species'
 
 const App = () => {
+  const [speciesArr, setSpeciesArr] = useState([]);
+
+  useEffect(()=>{
+    axios.get('https://swapi.dev/api/species/')
+      .then(res => setSpeciesArr(res.data.results))
+      .catch(err => console.log(err))
+  }, []);
+
+  
   // Try to think through what state you'll need for this app before starting. Then build out
   // the state properties here.
 
@@ -11,7 +22,8 @@ const App = () => {
 
   return (
     <div className="App">
-      <h1 className="Header">Characters</h1>
+      <h1 className="Header">Star Wars Species</h1>
+      <Species speciesArr={speciesArr}/>
     </div>
   );
 }
